@@ -7,6 +7,7 @@ function alternate(s) {
     
     // delete the letters that are continous 
     let newString = s.replace(reg,'')
+    console.log(newString)
     
     //frequency counter to find how many different letters
     let fc = {}
@@ -20,26 +21,30 @@ function alternate(s) {
      }  
      console.log(newString)
      let letters = Object.keys(fc)
+     console.log(letters)
       let max = 0;
       let longestString = ''
-     for (let i of letters ) {
-     
-       let myRegex = `${i}`
-         console.log(myRegex)
-        for (let j = 1; j < letters.length; j++){
-          let yourRegex = `${letters[j]}`
-          console.log(yourRegex)
-            let lettersString2 = newString.replace(/`${i}`/g,'')
+     for (let i = 0; i < letters.length; i++  ) {
+  
+        for (let j = i + 1; j < letters.length; j++){
+       
+            let lettersString2 = newString.replace(new RegExp(`[^${letters[i]}${letters[j]}]`, 'g'), '')
             console.log(lettersString2)
-            if (lettersString2.length >= max){
+            if (isValid(lettersString2) &&lettersString2.length >= max){
               max=lettersString2.length
               longestString = lettersString2
             }
         }
-       
      }
-     return longestString
+     return max
 
 }
 
-console.log(alternate('beabeefeab'))
+function isValid(str){
+  for (let i = 0; i < str.length; i++){
+    if (str[i] === str[i+1]){
+      return false
+    }  
+  }
+  return true
+}
